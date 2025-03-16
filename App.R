@@ -7,8 +7,6 @@ library(ggrepel)
 library(tidyverse)
 
 
-
-
 # Sample dataset structure (replace with actual dataset)
 forcedecks_shiny <- read.csv("forcedecks_oly_cleaned.csv")
 
@@ -112,8 +110,9 @@ server <- function(input, output, session) {
     ggplot(team_avg_data, aes(x = date, y = avg_value)) +
       geom_col(fill = "lightblue3") +
       theme_minimal() +
-      geom_text(aes(label=round(avg_value,2),size=5,fontface = "bold",vjust=-1.25),color="white")+
+      geom_text(aes(label=round(avg_value,2),size=8,fontface = "bold",vjust=1.25),color="#222222")+
       scale_y_continuous(limits = c(0,max(team_avg_data$avg_value)+.1*team_avg_data$avg_value))+
+      geom_hline(yintercept = mean(team_avg_data$avg_value),linetype="dashed",size=2,color="white")+
       labs(x="Date",y=input$metric)+
       theme(text = element_text(color="white",size=15),
             legend.position = "none",
@@ -141,11 +140,12 @@ server <- function(input, output, session) {
       geom_hline(yintercept=-1,linetype="dashed",color="red",alpha=.6,size=1)+
       geom_vline(xintercept=-1,linetype="dashed",color="red",alpha=.6,size=1)+
       geom_vline(xintercept=1,linetype="dashed",color="green",alpha=.6,size=1)+
-      geom_point(size=3.5,color="#118DFF",alpha=.8)+
-      ggrepel::geom_text_repel(aes(label=name),size=5,color="black")+
+      geom_point(size=3.5,color="white",alpha=.8)+
+      ggrepel::geom_text_repel(aes(label=name),size=5,color="white")+
       labs(x="Peak Power (ZScore)",y="mRSI (ZScore)")+
-      theme_bw()+
-      theme(title=element_text(size=15,face="bold"),legend.position="none")
+      theme_minimal()+
+      theme(title=element_text(size=15,face="bold"),legend.position="none",
+            text = element_text(color="white"))
 
   })
 }
